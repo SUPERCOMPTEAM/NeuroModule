@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  proxy:
+    image: supercompteam/neurorobin
+    build:
+      context: .
+      dockerfile: ./docker/proxy.dockerfile
+    ports:
+      - 8000:80
+    volumes:
+      - config:/usr/local/nginx/conf
+    networks:
+      - network
+    restart: always
+
+volumes:
+  config:
+
+networks:
+  network:
+    driver: bridge
