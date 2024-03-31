@@ -1,13 +1,22 @@
-FROM python:3.8-slim
+FROM redhat/ubi8-minimal:8.7 AS base
 
-RUN apt-get update && apt-get install -y git
+RUN microdnf install gcc gcc-c++
+RUN microdnf install pcre-devel
+RUN microdnf install openssl-devel
+RUN microdnf install perl-devel
+RUN microdnf install perl-ExtUtils-Embed
+RUN microdnf install make
+RUN microdnf install git
 
-WORKDIR /app
+RUN git clone https://github.com/SUPERCOMPTEAM/SCT_nginx.git
 
-RUN git clone https://github.com/SUPERCOMPTEAM/SCT_MOCK.git
+WORKDIR /SCT_nginx
 
-RUN pip install -r /app/SCT_MOCK/requirements.txt
+RUN /SCT_nginx/auto/configure --with-http_ssl_module --with-mail --with-stream --with-stream_realip_module --with-cpp_test_module --with-cc=gcc --with-cpp=gcc --with-cc-opt="-fPIC" --with-cpu-opt=cpu --with-pcre --with-debug --with-http_perl_module
 
-WORKDIR /app
+RUN make -j4
+RUN make install
 
-CMD ["python", "./SCT_MOCK/__main__.py"]
+EXPOSE 80
+
+CMD [ "/usr/local/nginx/sbin/nginx", "-g", "daemon off;" ]
