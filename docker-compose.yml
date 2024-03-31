@@ -7,12 +7,67 @@ services:
       context: .
       dockerfile: ./docker/proxy.dockerfile
     ports:
-      - 8000:80
+      - 8080:80
     volumes:
       - config:/usr/local/nginx/conf
     networks:
       - network
     restart: always
+
+  mock_server1:  
+    build:
+      context: .
+      dockerfile: ./docker/proxy.dockerfile  
+    ports:
+      - "8001:8080" 
+    environment:
+      - MOCK_API_HOST=${MOCK_API_HOST:-0.0.0.0}
+      - MOCK_API_PORT=8001  
+      - MOCK_SERVER_NUMBER=1  
+
+  mock_server2:  
+    build:
+      context: .
+      dockerfile: ./docker/proxy.dockerfile  
+    ports:
+      - "8002:8080"
+    environment:
+      - MOCK_API_HOST=${MOCK_API_HOST:-0.0.0.0}
+      - MOCK_API_PORT=8002  
+      - MOCK_SERVER_NUMBER=2
+
+  mock_server3:  
+    build:
+      context: .
+      dockerfile: ./docker/proxy.dockerfile  
+    ports:
+      - "8003:8080" 
+    environment:
+      - MOCK_API_HOST=${MOCK_API_HOST:-0.0.0.0}
+      - MOCK_API_PORT=8003  
+      - MOCK_SERVER_NUMBER=3  
+
+  mock_server4:  
+    build:
+      context: .
+      dockerfile: ./docker/proxy.dockerfile  
+    ports:
+      - "8004:8080"
+    environment:
+      - MOCK_API_HOST=${MOCK_API_HOST:-0.0.0.0}
+      - MOCK_API_PORT=8004  
+      - MOCK_SERVER_NUMBER=4
+
+  mock_server5:  
+    build:
+      context: .
+      dockerfile: ./docker/proxy.dockerfile  
+    ports:
+      - "8005:8080"
+    environment:
+      - MOCK_API_HOST=${MOCK_API_HOST:-0.0.0.0}
+      - MOCK_API_PORT=8005  
+      - MOCK_SERVER_NUMBER=5
 
 volumes:
   config:
