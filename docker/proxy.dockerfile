@@ -17,8 +17,6 @@ RUN /app/auto/configure --with-http_ssl_module --with-mail --with-stream --with-
 
 RUN make -j4
 RUN make install
-RUN rm /usr/local/nginx/conf/nginx.conf
-COPY ./config/nginx.conf /usr/local/nginx/conf/nginx.conf
 
 EXPOSE 80
 

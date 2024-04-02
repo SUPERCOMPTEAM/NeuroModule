@@ -20,7 +20,8 @@ services:
       - mock_server5
     restart: always
 
-  mock_server1:  
+  mock_server1:
+    image: supercompteam/mock
     build:
       context: .
       dockerfile: ./docker/mock.dockerfile  
@@ -33,7 +34,8 @@ services:
     networks:
       - network  
 
-  mock_server2:  
+  mock_server2:
+    image: supercompteam/mock
     build:
       context: .
       dockerfile: ./docker/mock.dockerfile  
@@ -47,6 +49,7 @@ services:
       - network
 
   mock_server3:  
+    image: supercompteam/mock
     build:
       context: .
       dockerfile: ./docker/mock.dockerfile  
@@ -60,6 +63,7 @@ services:
       - network  
 
   mock_server4:  
+    image: supercompteam/mock
     build:
       context: .
       dockerfile: ./docker/mock.dockerfile  
@@ -72,7 +76,8 @@ services:
     networks:
       - network
 
-  mock_server5:  
+  mock_server5:
+    image: supercompteam/mock
     build:
       context: .
       dockerfile: ./docker/mock.dockerfile  
