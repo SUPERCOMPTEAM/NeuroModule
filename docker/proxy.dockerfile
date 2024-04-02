@@ -10,12 +10,15 @@ RUN microdnf install git
 
 RUN git clone https://github.com/SUPERCOMPTEAM/SCT_nginx.git
 
-WORKDIR /SCT_nginx
+RUN mv /SCT_nginx /app
+WORKDIR /app
 
-RUN /SCT_nginx/auto/configure --with-http_ssl_module --with-mail --with-stream --with-stream_realip_module --with-cpp_test_module --with-cc=gcc --with-cpp=gcc --with-cc-opt="-fPIC" --with-cpu-opt=cpu --with-pcre --with-debug --with-http_perl_module
+RUN /app/auto/configure --with-http_ssl_module --with-mail --with-stream --with-stream_realip_module --with-cpp_test_module --with-cc=gcc --with-cpp=gcc --with-cc-opt="-fPIC" --with-cpu-opt=cpu --with-pcre --with-debug --with-http_perl_module
 
 RUN make -j4
 RUN make install
+RUN rm /usr/local/nginx/conf/nginx.conf
+COPY ./config/nginx.conf /usr/local/nginx/conf/nginx.conf
 
 EXPOSE 80
 
