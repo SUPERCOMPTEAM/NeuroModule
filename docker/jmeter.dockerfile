@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM justb4/jmeter:5.4
 
 RUN apt-get update && apt-get install -y git
 
