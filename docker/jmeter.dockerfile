@@ -6,6 +6,9 @@ WORKDIR /app
 
 RUN git clone https://github.com/SUPERCOMPTEAM/SCT_Jmeter.git
 
+# Копируем содержимое папки jmeter_data из репозитория внутрь контейнера
+COPY SCT_Jmeter/jmeter_data /app/jmeter_data
+
 RUN wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.3.tgz \
     && tar -xzf apache-jmeter-5.4.3.tgz \
     && rm apache-jmeter-5.4.3.tgz
