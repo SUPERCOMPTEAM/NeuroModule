@@ -1,6 +1,17 @@
 version: '3.7'
 
 services:
+  jmeter:
+    build:
+      context: .
+      dockerfile: ./docker/jmeter.dockerfile
+    volumes:
+      - ./SCT_Jmeter/jmeter_data:/app/results   # Локальный путь к тестам в репозитории
+      - ./SCT_Jmeter/jmeter_data:/app/test        # Локальный путь к результатам в репозитории
+    networks:
+      - network
+    command: ["jmeter", "-n", "-t", "/app/jmeter_scripts/test.jmx", "-l", "/app/jmeter_data/test_results.jtl"]  # Пути внутри контейнера
+
   proxy:
     image: sct/neurorobin
     build:
