@@ -20,28 +20,19 @@ services:
       - mock_server5
     restart: always
 
-  jmeter:
-    build:
-      context: .
-      dockerfile: ./docker/jmeter.dockerfile
-    volumes:
-      - ./jmeter_scripts:/app/jmeter_scripts
-    networks:
-      - network
-
   mock_server1:
     image: sct/mock
     build:
       context: .
-      dockerfile: ./docker/mock.dockerfile
+      dockerfile: ./docker/mock.dockerfile  
     ports:
-      - "8001:8001"
+      - "8001:8001" 
     environment:
       - MOCK_API_HOST=${MOCK_API_HOST:-0.0.0.0}
-      - MOCK_API_PORT=8001
+      - MOCK_API_PORT=8001  
       - MOCK_SERVER_NUMBER=1
     networks:
-      - network
+      - network  
 
   mock_server2:
     image: sct/mock
