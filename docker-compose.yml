@@ -8,6 +8,7 @@ services:
       dockerfile: ./docker/proxy.dockerfile
     ports:
       - 8000:80
+      - 3306:3306
     volumes:
       - config:/usr/local/nginx/conf
     networks:
@@ -19,6 +20,39 @@ services:
       - mock_server4
       - mock_server5
     restart: always
+
+  recalculator:
+    container_name: recalculator
+    build: recalculator
+    ports:
+      - "7998:7998"
+    volumes:
+      - ./recalculator/weights:/src/weights
+    networks:
+      - network
+    restart: on-failure
+
+  mock_db1:
+    build: mysql
+    container_name: mock_db1
+    environment:
+      MYSQL_ROOT_PASSWORD: value
+    volumes:
+      - ./mysql/init1.sql:/docker-entrypoint-initdb.d/init.sql
+      - mock_db1_data:/var/lib/mysql
+    networks:
+      - network
+
+  mock_db2:
+    build: mysql
+    container_name: mock_db2
+    environment:
+      MYSQL_ROOT_PASSWORD: value
+    volumes:
+      - ./mysql/init2.sql:/docker-entrypoint-initdb.d/init.sql
+      - mock_db2_data:/var/lib/mysql
+    networks:
+      - network
 
   mock_server1:
     image: sct/mock
