@@ -126,6 +126,8 @@ services:
 
 volumes:
   config:
+  mock_db1_data:
+  mock_db2_data:
 
 networks:
   network:
