@@ -14,14 +14,18 @@ services:
     networks:
       - network
     depends_on:
+      - recalculator
       - mock_server1
       - mock_server2
       - mock_server3
       - mock_server4
       - mock_server5
+      - mock_db1
+      - mock_db2
     restart: always
-
+    
   recalculator:
+    image: sct/recalculator
     container_name: recalculator
     build: recalculator
     ports:
