@@ -28,9 +28,9 @@ IT Проект в рамках Цифровой Кафедры МАИ. Кейс
 ## Установка
 Чтобы запустить проект локально, выполните следующие шаги:
 1. Клонируйте репозиторий:  
-  ```git clone https://github.com/SUPERCOMPTEAM/SCT_nginx.git```
+  ```git clone https://github.com/SUPERCOMPTEAM/NeuroModule.git```
 2. Перейдите в директорию проекта:  
-  ```cd SCT_nginx```
+  ```cd NeuroModule```
 3. Собираем и запускаем все контейнеры, определённые в файле ```docker-compose.yml```  
   ```docker compose -f ./docker-compose.yml up —build```
 4. Из директории config файл nginx.conf необходимо перенести в volume "config" в proxy внутри Docker
