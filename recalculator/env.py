@@ -7,8 +7,6 @@ from gym.core import RenderFrame, ActType, ObsType
 from gym.spaces import Discrete, Box, Sequence
 from gym import Env
 
-from models import Upstream
-
 
 class NginxEnv(Env):
     def __init__(self):
