@@ -680,15 +680,16 @@ ngx_stream_upstream_get_peer_from_neuro(ngx_stream_upstream_sct_neuro_peer_data_
         nreq_since_last_weight_update_stream++;
     }
     if (nreq_since_last_weight_update_stream == 0) {
-        int cnt_req_and_res[rrp->peers->number * 2];
+        int cnt_req_and_res[rrp->peers->number * 3];
 
         ngx_spinlock(&block->lock, ngx_pid, 1024);
         for (peer = rrp->peers->peer, i = 0;
             peer;
-            peer = peer->next, i += 2)
+            peer = peer->next, i += 3)
         {
             cnt_req_and_res[i] = peer->cnt_requests;
             cnt_req_and_res[i + 1] = peer->cnt_responses;
+            cnt_req_and_res[i + 2] = peer->neuro_weight;
         }
 
         host = gethostbyname("recalculator");

@@ -15,7 +15,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-async def handler(reader, writer):
+
+async def recalculation_handler(reader, writer):
     data_length = struct.unpack('I', await reader.read(4))[0]
     logger.info(f"Received data length: {data_length}")
     data = await reader.read(data_length)
@@ -23,8 +24,8 @@ async def handler(reader, writer):
     observation = np.frombuffer(data, dtype=np.int32)
     logger.info(f"Converted observation: {observation}")
     
-    cnt_servers = len(observation) // 2
-    action = test_model.select_action(np.array(translate_neuro_weights(observation, 200)))
+    cnt_servers = len(observation) // 3
+    action = test_model.select_action(np.array(translate_neuro_weights(observation, 5)))
     processed_data = translate_neuro_weights(action, cnt_servers)
     logger.info(f"Processed data: {processed_data}")
     
@@ -36,8 +37,9 @@ async def handler(reader, writer):
     logger.info("Response sent and connection closed")
 
 
-async def main():
-    server = await asyncio.start_server(handler, 'recalculator', 7998)
+async def start_recalculation():
+    server = await asyncio.start_server(recalculation_handler, 'recalculator', 7998)
+
     async with server:
         await server.serve_forever()
 
@@ -49,9 +51,12 @@ if __name__ == "__main__":
     else:
         start_learning = False
 
-    logger.info("Initializing model")
-    test_model = TD3(200, 100, 100)
-    logger.info("Loading model")
-    test_model.load("./weights/TD3_NGinxEnv_0")
-    logger.info("Server started")
-    asyncio.run(main())
+    if start_learning:
+        pass
+    else:
+        logger.info("Initializing model")
+        test_model = TD3(15, 5, 30)
+        logger.info("Loading model")
+        test_model.load("./weights/TD3_NGinxEnv_0")
+        logger.info("Server started")
+        asyncio.run(start_recalculation())
