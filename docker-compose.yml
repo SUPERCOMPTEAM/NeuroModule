@@ -28,6 +28,8 @@ services:
     image: sct/recalculator
     container_name: recalculator
     build: recalculator
+    environment:
+      - LEARNING=True
     ports:
       - "7998:7998"
     volumes:

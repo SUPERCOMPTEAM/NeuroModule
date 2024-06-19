@@ -32,5 +32,7 @@ IT Проект в рамках Цифровой Кафедры МАИ. Кейс
 2. Перейдите в директорию проекта:  
   ```cd NeuroModule```
 3. Собираем и запускаем все контейнеры, определённые в файле ```docker-compose.yml```  
-  ```docker compose -f ./docker-compose.yml up —build```
+  ```docker compose -f ./docker-compose.yml up --build```
 4. Из директории config файл nginx.conf необходимо перенести в volume "config" в proxy внутри Docker
+
+Сервер будет доступен по адресу: ```http://localhost:8000/servers/load/random```
