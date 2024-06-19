@@ -11,6 +11,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def translate_neuro_weights(weights: list[int], server_count: int) -> list[float]:
     general_size = len(weights) / server_count
     servers = [0 for _ in range(server_count)]
