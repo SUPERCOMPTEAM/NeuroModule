@@ -601,7 +601,7 @@ failed:
 static ngx_stream_upstream_sct_neuro_peer_t *
 ngx_stream_upstream_get_peer_from_neuro(ngx_stream_upstream_sct_neuro_peer_data_t *rrp)
 {
-    int                                     sock;
+    int                                     sock, flag;
     time_t                                  now;
     struct sockaddr_in                      server;
     ngx_uint_t                              i, num_blocks;
