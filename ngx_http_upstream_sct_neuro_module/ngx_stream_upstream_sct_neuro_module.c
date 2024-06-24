@@ -719,7 +719,7 @@ ngx_stream_upstream_get_peer_from_neuro(ngx_stream_upstream_sct_neuro_peer_data_
          peer;
          peer = peer->next, i++)
     {
-        if (peer->cnt_requests == peer->cnt_responces) {
+        if (peer->cnt_requests == peer->cnt_responses) {
             if (peer->cnt_requests < best->cnt_requests) {
                 best = peer;
                 flag = 1;
