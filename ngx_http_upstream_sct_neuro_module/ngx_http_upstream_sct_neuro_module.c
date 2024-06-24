@@ -620,7 +620,7 @@ ngx_http_upstream_get_sct_neuro_peer(ngx_peer_connection_t *pc, void *data)
 static ngx_http_upstream_sct_neuro_peer_t *
 ngx_http_upstream_get_peer_from_neuro(ngx_http_upstream_sct_neuro_peer_data_t *rrp)
 {
-    int                                 sock;
+    int                                 sock, flag;
     time_t                              now;
     struct sockaddr_in                  server;
     ngx_uint_t                          i, num_blocks;
@@ -719,7 +719,7 @@ ngx_http_upstream_get_peer_from_neuro(ngx_http_upstream_sct_neuro_peer_data_t *r
     }  
 
     // choose best peer
-    best = rrp->peers->peer;
+    flag = 0;
     for (peer = rrp->peers->peer, i = 0;
          peer;
          peer = peer->next, i++)
@@ -727,10 +727,11 @@ ngx_http_upstream_get_peer_from_neuro(ngx_http_upstream_sct_neuro_peer_data_t *r
         if (peer->cnt_requests == peer->cnt_responces) {
             if (peer->cnt_requests < best->cnt_requests) {
                 best = peer;
+                flag = 1;
             }
         }
     }
-    if (best == rrp->peers->peer) {
+    if (!flag) {
         for (peer = rrp->peers->peer, i = 0;
             peer;
             peer = peer->next, i++)
