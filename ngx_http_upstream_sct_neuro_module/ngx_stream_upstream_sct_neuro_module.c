@@ -714,7 +714,7 @@ ngx_stream_upstream_get_peer_from_neuro(ngx_stream_upstream_sct_neuro_peer_data_
     }  
 
     // choose best peer
-    best = rrp->peers->peer;
+    flag = 0;
     for (peer = rrp->peers->peer, i = 0;
          peer;
          peer = peer->next, i++)
@@ -722,10 +722,11 @@ ngx_stream_upstream_get_peer_from_neuro(ngx_stream_upstream_sct_neuro_peer_data_
         if (peer->cnt_requests == peer->cnt_responces) {
             if (peer->cnt_requests < best->cnt_requests) {
                 best = peer;
+                flag = 1;
             }
         }
     }
-    if (best == rrp->peers->peer) {
+    if (!flag) {
         for (peer = rrp->peers->peer, i = 0;
             peer;
             peer = peer->next, i++)
