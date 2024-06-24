@@ -719,12 +719,25 @@ ngx_http_upstream_get_peer_from_neuro(ngx_http_upstream_sct_neuro_peer_data_t *r
     }  
 
     // choose best peer
+    best = rrp->peers->peer;
     for (peer = rrp->peers->peer, i = 0;
          peer;
          peer = peer->next, i++)
     {
-        if (peer->neuro_weight > best->neuro_weight) {
-            best = peer;
+        if (peer->cnt_requests == peer->cnt_responces) {
+            if (peer->cnt_requests < best->cnt_requests) {
+                best = peer;
+            }
+        }
+    }
+    if (best == rrp->peers->peer) {
+        for (peer = rrp->peers->peer, i = 0;
+            peer;
+            peer = peer->next, i++)
+        {
+            if (peer->neuro_weight > best->neuro_weight) {
+                best = peer;
+            }
         }
     }
 
